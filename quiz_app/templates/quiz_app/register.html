@@ -1,0 +1,31 @@
+{%extends 'quiz_app/index.html'%}
+
+{% block title %}Register |{% endblock  %}
+
+{%block content%}
+	{% if request.user.is_anonymous %}
+
+		<div class="center">
+		<form method="post" novaldiate class="card">
+			{% csrf_token %}
+			<h2 class="text-center">Create your account</h2>
+			{% for field in form %}
+				{{ field.label_tag }} 
+				{{ field }}
+				{% if field.errors %}
+					<small class="error">{{ field.errors|striptags  }}</small> 
+				{% endif %}
+				<p></p>
+			{% endfor %}
+			
+			<input type="submit" value="Register" class="btn btn-primary full-width">
+			<hr>
+			<p class="text-center">Already have an account? <a href="{% url 'quiz_app:login'%}">Login Here</a></p>
+			</form>
+		</div>
+	{% else %}
+		<div class="center">
+			<p class="text-center">You are already logged in. To register new account first <a href="{% url 'quiz_app:logout'%}">logout.</a></p>
+		</div>
+	{% endif %}
+{%endblock content%}

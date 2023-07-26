@@ -1,0 +1,35 @@
+{% extends 'quiz_app/index.html' %}
+
+
+{% block title %}
+{{ request.user.username }} Profile |
+{% endblock %}
+
+
+{% block content %}
+    <h1 style="text-align: center;">
+        Profile of {{ request.user.username }}
+    </h1>
+    <div style="text-align: center;">
+        <table style="margin: auto; width: 80%;" border="1">
+            <tr>
+                <th>
+                    Competition Name
+                </th>
+                <th>
+                    Your Score
+                </th>
+            </tr>
+            {% for user_score in user_scores %}
+                <tr>
+                    <th>
+                        {{ user_score.topic }}
+                    </th>
+                    <th>
+                        {{ user_score.score }}
+                    </th>        
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}

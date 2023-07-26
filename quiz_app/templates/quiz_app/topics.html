@@ -1,0 +1,33 @@
+{% extends 'quiz_app/index.html' %}
+
+{% block title %}
+Topics |
+{% endblock title %}
+
+
+{% block style %}
+
+a{
+    color:blanchedalmond ; 
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+    color: antiquewhite;
+}
+
+{% endblock %}
+
+
+{% block content %}
+    <ol>
+    {% for topic in topics %}
+        <li>
+            <a href="{% url 'quiz_app:topic_qr_code' topic.id %}">
+                {{topic}}
+            </a>
+        </li>
+    {% endfor %}
+    </ol>
+{% endblock %}

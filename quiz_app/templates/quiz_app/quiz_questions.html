@@ -1,0 +1,71 @@
+{% extends 'quiz_app/index.html' %}
+
+{% block title %}
+  Questions |
+{% endblock %}
+
+{% block style %}
+  .question_competition { display: flex; }
+
+  .question { flex: 70%; /* The first div will take 70% of the container's width */ padding: 20px; margin-right: 90px; }
+
+  .competition { flex: 30%; /* The second div will take 30% of the container's width */ padding: 20px; border: 1px solid #ccc; }
+{% endblock %}
+
+{% block content %}
+  <div class="question_competition">
+    <div class="question">
+      <h1>{{topic}} Quiz</h1>
+      <h2>Questions</h2>
+      <form method="post" action=" {% url 'quiz_app:quiz_question' topic_id %}">
+        {% csrf_token %}
+        {% for question in questions %}
+          <h4>{{ question.question_text }}</h4>
+          {% for option in question.options %}
+            <label>
+              <input type="radio" name="question_{{ question.id }}" value="{{ option.0 }}" required />
+              {{ option }}
+            </label>
+          {% endfor %}
+        {% endfor %}
+        <hr>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    <div class="competition">
+      <h3>Leader Board</h3>
+      <ol id="leaderboard-list"></ol>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    const url = window.location.pathname // Get the current URL
+    const parts = url.split('/') // Split the URL by "/"
+    const topic_id = parts[parts.length - 2]
+    let ws = new WebSocket('ws://' + window.location.host + '/ws/competition/' + topic_id + '/')
+    
+    ws.onopen = function (e) {
+      ws.send(topic_id)
+    }
+    
+    ws.onmessage = function (e) {
+      const data = JSON.parse(e.data)
+      updateLeaderboard(data)
+    }
+    
+    function updateLeaderboard(data) {
+      const leaderboardList = document.getElementById('leaderboard-list')
+      leaderboardList.innerHTML = ''
+
+      data.sort((a,b) => b.score - a.score)
+
+      data.forEach((entry) => {
+        const listItem = document.createElement('li')
+        listItem.innerText = `${entry.username} - ${entry.score}`
+        leaderboardList.appendChild(listItem)
+      })
+    }
+  </script>
+{% endblock %}
