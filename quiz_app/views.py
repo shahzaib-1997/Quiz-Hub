@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework.views import APIView
-from .models import Topic, CompetitionEntry, TopicQuestion, UserTopicScore
+from .models import Topic, TopicQuestion, UserTopicScore
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
 from django.urls import reverse_lazy
