@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-t^4)gxbc*qwgwq!l!fsip=k5k-$)*&h+v48_!ci-28dl12f^9n"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['.herokuapp.com', 'localhost']
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "daphne",
     "channels",
     "quiz_app",
+    "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -46,6 +47,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -145,3 +147,8 @@ CHANNEL_LAYERS = {
 # }
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+CORS_ALLOWED_ORIGINS = [
+    "https://quizproject-2023-0134b0706eca.herokuapp.com",  # Add your Heroku domain
+]
