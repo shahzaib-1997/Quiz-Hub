@@ -1,1 +1,1 @@
-web: gunicorn quiz_project.wsgi
+web: daphne -p 8001 quiz_project.asgi:application
