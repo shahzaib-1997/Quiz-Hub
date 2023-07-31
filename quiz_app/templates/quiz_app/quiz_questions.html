@@ -18,7 +18,7 @@
       <h1>{{topic}} Quiz</h1>
       <h2>Questions</h2>
       <form method="post" action=" {% url 'quiz_app:quiz_question' topic.id %}">
-        {% comment %} {% csrf_token %} {% endcomment %}
+        {% csrf_token %}
         {% for question in questions %}
           <h4>{{ question.question_text }}</h4>
           {% for option in question.options %}
