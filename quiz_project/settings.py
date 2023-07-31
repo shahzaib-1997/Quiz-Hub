@@ -72,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = "quiz_project.wsgi.application"
+WSGI_APPLICATION = "quiz_project.wsgi.application"
 
 ASGI_APPLICATION = "quiz_project.asgi.application"
 
@@ -128,15 +128,11 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-]
-
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            'hosts': [('127.0.0.1', 6379)],
+            'hosts': [('redis://default:9pPW7X2ODzgK1YmelYNlSA0lcsiVaODR@redis-16966.c302.asia-northeast1-1.gce.cloud.redislabs.com:16966')],
         },
     },
 }

@@ -24,7 +24,7 @@ a:hover{
     <ol>
     {% for topic in topics %}
         <li>
-            <a href="{% url 'quiz_app:topic_qr_code' topic.id %}">
+            <a href="{% url 'quiz_app:quiz_question' topic.id %}">
                 {{topic}}
             </a>
         </li>

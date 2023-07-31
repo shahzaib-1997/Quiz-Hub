@@ -95,7 +95,7 @@ class QuizView(APIView):
     def get(self,request,topic_id):
         if request.user.is_authenticated:
             topic = get_object_or_404(Topic, id=topic_id)
-            entry, created = CompetitionEntry.objects.get_or_create(user=request.user, topic=topic)
+            entry, created = UserTopicScore.objects.get_or_create(user=request.user, topic=topic) 
             if created:
                 messages.success(request, "You have joined the competition!")
             questions = TopicQuestion.objects.filter(topic=topic)
@@ -110,7 +110,6 @@ class QuizView(APIView):
             )            
             context = {
                 'questions': questions,
-                'topic_id': topic_id,
                 'topic': topic,
             }
             return render(request, 'quiz_app/quiz_questions.html', context=context)

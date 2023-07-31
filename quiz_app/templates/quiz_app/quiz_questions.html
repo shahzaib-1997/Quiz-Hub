@@ -17,7 +17,7 @@
     <div class="question">
       <h1>{{topic}} Quiz</h1>
       <h2>Questions</h2>
-      <form method="post" action=" {% url 'quiz_app:quiz_question' topic_id %}">
+      <form method="post" action=" {% url 'quiz_app:quiz_question' topic.id %}">
         {% csrf_token %}
         {% for question in questions %}
           <h4>{{ question.question_text }}</h4>

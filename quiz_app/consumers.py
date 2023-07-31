@@ -2,20 +2,18 @@
 
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
-from .models import CompetitionEntry, Topic, UserTopicScore
+from .models import Topic, UserTopicScore
 from django.shortcuts import get_object_or_404
 from asgiref.sync import sync_to_async
 
 
-def data(entries, scores):
+def data(scores):
 
     contestants_data = []
-    for entry in entries:
-        contestant_username = entry.user.username
-        score = next((s.score for s in scores if s.user == entry.user), 0)
-        contestants_data.append({"username": contestant_username, "score": score})
+    for entry in scores:
+        contestants_data.append({"username": entry.user.username, "score": entry.score})
 
-    return contestants_data  # Fetching usernames from related User objects
+    return contestants_data
 
 
 class CompetitionConsumer(AsyncWebsocketConsumer):
@@ -35,7 +33,6 @@ class CompetitionConsumer(AsyncWebsocketConsumer):
     async def update_contestants(self, event):
         # Send updated contestants list to client
         topic = await sync_to_async(get_object_or_404)(Topic, id=self.topic_id)
-        entries = await sync_to_async(list)(CompetitionEntry.objects.filter(topic=topic))
         scores = await sync_to_async(list)(UserTopicScore.objects.filter(topic=topic))
-        contestants_data = await sync_to_async(data)(entries, scores)
+        contestants_data = await sync_to_async(data)(scores)
         await self.send(text_data=json.dumps(contestants_data))
