@@ -99,7 +99,7 @@ class AllRoomView(APIView):
 class ExploreRoomView(APIView):
 
     def get(self, request, room_name):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         room_topics = Topic.objects.filter(room=room)
         return render(request, 'quiz_app/topics.html', {'topics': room_topics, 'room': room})
     
@@ -125,7 +125,7 @@ class CreateRoomView(UserAuthMixin, APIView):
 class CreateTopicView(APIView):
     
     def get(self, request, room_name):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         if request.user == room.user:
             room_topics = Topic.objects.filter(room=room)
             return render(request, 'quiz_app/add_topic.html', {'room': room, 'topics': room_topics})
@@ -135,7 +135,7 @@ class CreateTopicView(APIView):
 
     def post(self, request, room_name):
         topic_name = request.POST.get('topic_name').capitalize()
-        room_obj = Room.objects.get(name=room_name)
+        room_obj = get_object_or_404(Room, name=room_name)
         room_topics = Topic.objects.filter(room=room_obj)
         topics_name = [topic.topic.capitalize() for topic in room_topics]
         # check whether the topic name is unique or not
@@ -149,7 +149,7 @@ class CreateTopicView(APIView):
 class CreateQuestionsView(APIView):
 
     def get(self, request, room_name, topic):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         topic = get_object_or_404(Topic, topic=topic, room=room)
         context = {
             'topic': topic,
@@ -159,14 +159,14 @@ class CreateQuestionsView(APIView):
 
 
     def post(self, request, room_name, topic):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         topic = get_object_or_404(Topic, topic=topic, room=room)
 
 
 class QuizView(UserAuthMixin, APIView):
 
     def get(self, request, room_name, topic):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         topic = get_object_or_404(Topic, topic=topic, room=room)
         questions = TopicQuestion.objects.filter(topic=topic)
         if questions:
@@ -194,7 +194,7 @@ class QuizView(UserAuthMixin, APIView):
         
 
     def post(self, request, room_name, topic):
-        room = Room.objects.get(name=room_name)
+        room = get_object_or_404(Room, name=room_name)
         topic = get_object_or_404(Topic, topic=topic, room=room)
         questions = TopicQuestion.objects.filter(topic=topic)
         score = 0
