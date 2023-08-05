@@ -2,34 +2,31 @@
 
 
 {% block title %}
-{{ request.user.username }} Profile |
+ Profile |
 {% endblock %}
 
 
 {% block content %}
     <h1 style="text-align: center;">
-        Profile of {{ request.user.username }}
+        Your Profile
     </h1>
     <div style="text-align: center;">
-        <table style="margin: auto; width: 80%;" border="1">
+        {% if user_scores %}
+        <table style="margin: auto; width: 50%;" border="1">
             <tr>
-                <th>
-                    Competition Name
-                </th>
-                <th>
-                    Your Score
-                </th>
+                <th> Competition Name </th>
+                <th> Your Score </th>
             </tr>
             {% for user_score in user_scores %}
                 <tr>
-                    <th>
-                        {{ user_score.topic }}
-                    </th>
-                    <th>
-                        {{ user_score.score }}
-                    </th>        
+                    <td> {{ user_score.topic }} </td>
+                    <td> {{ user_score.score }} </td>        
                 </tr>
             {% endfor %}
+        {% else %}
+            <h3>You haven't attempted any quiz yet.</h3>
+        {% endif %}
         </table>
     </div>
+
 {% endblock %}

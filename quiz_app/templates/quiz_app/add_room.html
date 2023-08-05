@@ -1,0 +1,35 @@
+{% extends 'quiz_app/index.html' %}
+
+{% block title %}
+ Create Room |
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'quiz_app:create-room' %}" method="post">
+    {% csrf_token %}
+    <label for=""> Enter Room Name: </label>
+    <input type="text" name="room_name" id="" required>
+    <br>
+    <button type="submit">Submit</button>
+</form>
+
+<div>
+    <h2>
+        Your Created Rooms:
+    </h2>
+    <ul>
+        {% for room in rooms %}
+        <li>
+            <a href="{% url 'quiz_app:room' room.name %}">
+            {{room.name}}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

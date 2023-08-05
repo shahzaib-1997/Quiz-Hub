@@ -9,11 +9,9 @@ Topics |
 
 a{
     color:blanchedalmond ; 
-    text-decoration: none;
 }
 
 a:hover{
-    text-decoration: underline;
     color: antiquewhite;
 }
 
@@ -21,13 +19,22 @@ a:hover{
 
 
 {% block content %}
+    {% if topics %}
     <ol>
     {% for topic in topics %}
         <li>
-            <a href="{% url 'quiz_app:quiz_question' topic.id %}">
+            <a href="{% url 'quiz_app:quiz_question' room_name=room topic=topic %}">
                 {{topic}}
             </a>
         </li>
     {% endfor %}
     </ol>
+    {% else %}
+    <h2>Topics will be available soon.</h2>
+    {% endif %}
+    <p>
+        {% if request.user == room.user %}
+            <a href="{% url 'quiz_app:create-topic' room.name %}">Click here</a> to create more topics.
+        {% endif %}
+    </p>
 {% endblock %}

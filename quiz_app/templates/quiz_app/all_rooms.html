@@ -1,0 +1,33 @@
+{% extends 'quiz_app/index.html' %}
+
+{% block title %}
+ All Rooms |
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <h2>
+        All Rooms:
+    </h2>
+    <p>
+        Click on any Room name to explore its topics.
+    </p>
+    <ul>
+        {% for room in rooms %}
+        <li>
+            <a href="{% url 'quiz_app:room' room.name %}">
+            {{room.name}}
+        </li>
+        {% endfor %}
+    </ul>
+    <p>
+        <a href="{% url 'quiz_app:create-room' %}"> Click here </a> to create room.
+    </p>
+</div>
+
+{% endblock %}

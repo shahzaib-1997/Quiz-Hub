@@ -1,8 +1,15 @@
 from django.contrib import admin
-from .models import Topic, TopicQuestion, UserTopicScore
+from .models import Topic, TopicQuestion, UserTopicScore, Room
 
 # Register your models here.
-admin.site.register(Topic)
+@admin.register(Room)
+class RoomAdmin(admin.ModelAdmin):
+    list_display = ['name', 'user']
+
+@admin.register(Topic)
+class TopicAdmin(admin.ModelAdmin):
+    list_display = ['topic', 'room']
+
 
 @admin.register(TopicQuestion)
 class TopicQuestionAdmin(admin.ModelAdmin):
