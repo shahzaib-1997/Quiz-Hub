@@ -13,7 +13,7 @@ topic_patterns = [
 room_patterns = [
     path("", views.ExploreRoomView.as_view(), name="room"),
     path("create-topic/", views.CreateTopicView.as_view(), name="create-topic"),
-    path("<str:topic>", include(topic_patterns)),
+    path("<str:topic>/", include(topic_patterns)),
 ]
 
 account_patterns = [
