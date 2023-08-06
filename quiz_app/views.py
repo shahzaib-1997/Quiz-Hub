@@ -107,12 +107,12 @@ class ExploreRoomView(APIView):
 class CreateRoomView(UserAuthMixin, APIView):
     
     def get(self,request):
-        user_rooms = Room.objects.filter(user=request.user)
+        user_rooms = Room.objects.user_rooms(request.user)
         return render(request, 'quiz_app/add_room.html', {'rooms':user_rooms})
 
     def post(self, request):
         room_name = request.POST.get('room_name').capitalize()
-        user_rooms = Room.objects.filter(user=request.user)
+        user_rooms = Room.objects.user_rooms(request.user)
         rooms_name = [room.name.capitalize() for room in user_rooms]
         if room_name not in rooms_name:
             Room.objects.create(name=room_name, user=request.user)
